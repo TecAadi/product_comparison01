@@ -1,0 +1,31 @@
+# ------------------ LOGIN BACKEND ---------------------
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    error = None
+
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        # FIND USER IN MONGODB
+        user = users_collection.find_one({"username": username})
+
+        if user and user["password"] == password:
+
+            # Store user session
+            session["user"] = {
+                "username": user["username"],
+                "name": user["name"],
+                "address": user["address"],
+                "dob": user["dob"],
+                "city": user["city"],
+                "pincode": user["pincode"]
+            }
+
+            return redirect("/profile")   # <<< REDIRECT TO PROFILE PAGE
+
+        else:
+            error = "Invalid username or password"
+
+    # Load login.html instead of rendering a string
+    return render_template("login.html", error=error)

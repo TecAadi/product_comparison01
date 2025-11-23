@@ -1,0 +1,9 @@
+<h2>Prediction Result</h2>
+
+<img src="/static/uploads/{{ image }}" width="250">
+
+<h3>AI Prediction:</h3>
+
+{% for item in result %}
+    <p><b>{{ item['label'] }}</b> — {{ item['score'] }}</p>
+{% endfor %}

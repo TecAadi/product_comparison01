@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
+            overflow-x: hidden;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Navbar */
+        .navbar {
+            width: 100%;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: #ff4d4d;
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #ff1a1a;
+            transform: scale(1.05);
+        }
+
+        /* Profile Card */
+        .profile-box {
+            width: 450px;
+            margin: 40px auto 0 auto;
+            padding: 30px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            animation: slideUp 0.8s ease-out forwards;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to   { transform: translateY(0px); opacity: 1; }
+        }
+
+        .profile-box img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 5px solid rgba(255,255,255,0.4);
+            margin-bottom: 15px;
+        }
+
+        .info {
+            text-align: left;
+            margin-top: 25px;
+        }
+
+        .info p {
+            background: rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        /* Upload Section */
+        .upload-box {
+            width: 450px;
+            margin: 40px auto 80px auto;
+            padding: 25px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            animation: slideUp 0.8s ease-out forwards;
+        }
+
+        .upload-box input[type="file"] {
+            margin-top: 15px;
+        }
+
+        .upload-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #00eaff;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .upload-btn:hover {
+            background: #00bcd4;
+            transform: scale(1.05);
+        }
+
+        .prediction {
+            margin-top: 20px;
+            font-size: 18px;
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <h2>Welcome, {{ username }}</h2>
+        <a href="/logout" style="text-decoration:none;">
+            <button class="logout-btn">Logout</button>
+        </a>
+    </div>
+
+    <!-- PROFILE BOX -->
+    <div class="profile-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
+
+        <h2>{{ username }}'s Profile</h2>
+
+        <div class="info">
+            <p><strong>Full Name:</strong> {{ name }}</p>
+            <p><strong>Email:</strong> {{ email }}</p>
+            <p><strong>City:</strong> {{ city }}</p>
+            <p><strong>DOB:</strong> {{ dob }}</p>
+            <p><strong>Pincode:</strong> {{ pincode }}</p>
+        </div>
+    </div>
+
+    <!-- UPLOAD + RECOGNIZE BOX -->
+    <div class="upload-box">
+        <h2>Upload Product Image</h2>
+
+        <form action="/recognize" method="POST" enctype="multipart/form-data">
+            <input type="file" name="image" required>
+            <br>
+            <button class="upload-btn" type="submit">Recognize</button>
+        </form>
+
+        {% if result %}
+            <div class="prediction">
+                <strong>Prediction:</strong><br>
+                {{ result[0].label }}  
+                <br>
+                <small>Score: {{ result[0].score }}</small>
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
