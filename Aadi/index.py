@@ -790,7 +790,7 @@ profile_html = """
         <h2>Upload Product Image</h2>
 
         <form action="/upload" method="POST" enctype="multipart/form-data">
-            <input type="file" name="image" required>
+            <input type="file" name="file" required>
             <br>
             <button class="upload-btn" type="submit">Recognize</button>
         </form>
@@ -861,5 +861,6 @@ def upload_image():
 # -----------------------------------------------------
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
